@@ -104,6 +104,9 @@ instance D.Default ToFields Time.ZonedTime (Column T.SqlTimestamptz) where
 instance D.Default ToFields Time.TimeOfDay (Column T.SqlTime) where
   def = toToFields T.sqlTimeOfDay
 
+instance D.Default ToFields Time.CalendarDiffTime (Column T.SqlInterval) where
+  def = toToFields T.sqlInterval
+
 instance D.Default ToFields (CI.CI ST.Text) (Column T.SqlCitext) where
   def = toToFields T.sqlCiStrictText
 

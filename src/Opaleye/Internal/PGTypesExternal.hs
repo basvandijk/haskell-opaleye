@@ -21,6 +21,7 @@ import qualified Data.ByteString as SByteString
 import qualified Data.ByteString.Lazy as LByteString
 import           Data.Scientific as Sci
 import qualified Data.Time as Time
+import qualified Data.Time.Format.ISO8601 as Time.Format.ISO8601
 import qualified Data.UUID as UUID
 
 import           Data.Int (Int64)
@@ -106,6 +107,10 @@ pgTimeOfDay = IPT.unsafePgFormatTime "time" "'%T%Q'"
 -- "We recommend not using the type time with time zone"
 -- http://www.postgresql.org/docs/8.3/static/datatype-datetime.html
 
+pgInterval :: Time.CalendarDiffTime -> Column PGInterval
+pgInterval = IPT.castToType "interval" . quote . Time.Format.ISO8601.iso8601Show
+    where
+      quote s = "'" <> s <> "'"
 
 pgCiStrictText :: CI.CI SText.Text -> Column PGCitext
 pgCiStrictText = IPT.literalColumn . HPQ.StringLit . SText.unpack . CI.original
@@ -179,6 +184,8 @@ instance IsSqlType SqlInt4 where
   showSqlType _ = "integer"
 instance IsSqlType SqlInt2 where
   showSqlType _ = "smallint"
+instance IsSqlType SqlInterval where
+  showSqlType _ = "interval"
 instance IsSqlType SqlNumeric where
   showSqlType _ = "numeric"
 instance IsSqlType SqlText where
@@ -234,6 +241,7 @@ data SqlFloat8
 data SqlInt8
 data SqlInt4
 data SqlInt2
+data SqlInterval
 data SqlNumeric
 data SqlText
 data SqlTime
@@ -264,6 +272,7 @@ type PGFloat8 = SqlFloat8
 type PGInt8 = SqlInt8
 type PGInt4 = SqlInt4
 type PGInt2 = SqlInt2
+type PGInterval = SqlInterval
 type PGNumeric = SqlNumeric
 type PGText = SqlText
 type PGTime = SqlTime

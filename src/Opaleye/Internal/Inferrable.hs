@@ -98,6 +98,10 @@ instance timeofday ~ Time.TimeOfDay
   => D.Default (Inferrable FromField) T.SqlTime timeofday where
   def = Inferrable D.def
 
+instance calendardifftime ~ Time.CalendarDiffTime
+  => D.Default (Inferrable FromField) T.SqlInterval calendardifftime where
+  def = Inferrable D.def
+
 instance cttext ~ CI.CI ST.Text
   => D.Default (Inferrable FromField) T.SqlCitext cttext where
   def = Inferrable D.def
@@ -204,6 +208,10 @@ instance C.Column T.SqlTimestamptz ~ cSqlTimestamptz
 
 instance C.Column T.SqlTime ~ cSqlTime
   => D.Default (Inferrable ToFields) Time.TimeOfDay cSqlTime where
+  def = Inferrable D.def
+
+instance C.Column T.SqlInterval ~ cSqlInterval
+  => D.Default (Inferrable ToFields) Time.CalendarDiffTime cSqlInterval where
   def = Inferrable D.def
 
 instance C.Column T.SqlCitext ~ cSqlCitext

@@ -23,11 +23,13 @@ module Opaleye.SqlTypes (
   sqlLocalTime,
   sqlZonedTime,
   sqlTimeOfDay,
+  sqlInterval,
   -- ** Types
   SqlDate,
   SqlTime,
   SqlTimestamp,
   SqlTimestamptz,
+  SqlInterval,
   -- * JSON
   -- ** Creating values
   sqlJSON,
@@ -96,6 +98,7 @@ import           Opaleye.Internal.PGTypesExternal (SqlBool,
                                                    SqlTime,
                                                    SqlTimestamp,
                                                    SqlTimestamptz,
+                                                   SqlInterval,
                                                    SqlUuid,
                                                    SqlCitext,
                                                    SqlArray,
@@ -170,6 +173,8 @@ sqlTimeOfDay = P.pgTimeOfDay
 -- "We recommend not using the type time with time zone"
 -- http://www.postgresql.org/docs/8.3/static/datatype-datetime.html
 
+sqlInterval :: Time.CalendarDiffTime -> F.Field SqlInterval
+sqlInterval = P.pgInterval
 
 sqlCiStrictText :: CI.CI SText.Text -> F.Field SqlCitext
 sqlCiStrictText = P.pgCiStrictText

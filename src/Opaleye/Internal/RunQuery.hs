@@ -244,6 +244,9 @@ instance DefaultFromField T.SqlTimestamp Time.LocalTime where
 instance DefaultFromField T.SqlTimestamptz Time.ZonedTime where
   defaultFromField = fromPGSFromField
 
+instance DefaultFromField T.SqlInterval Time.CalendarDiffTime where
+  defaultFromField = fromPGSFromField
+
 instance DefaultFromField T.SqlTime Time.TimeOfDay where
   defaultFromField = fromPGSFromField
 
